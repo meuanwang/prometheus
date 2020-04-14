@@ -1,0 +1,21 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+     - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    restart: always
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - '9100:9100'
+  docker-exporter:
+    image: prom/container-exporter
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '9104:9104'
